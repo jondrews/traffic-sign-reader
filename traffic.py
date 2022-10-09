@@ -35,11 +35,10 @@ def main():
         print(f"y_train size is {len(y_train)}.")
         print(f"y_test size is {len(y_test)}.\n")
 
-        """    
         # Get a compiled neural network
-        model = get_model()
+        model = get_model(x_train, x_test, y_train, y_test)
 
-        # Fit model on training data
+        # Fit model on training data (Train the neural network)
         model.fit(x_train, y_train, epochs=EPOCHS)
 
         # Evaluate neural network performance
@@ -50,8 +49,6 @@ def main():
             filename = sys.argv[2]
             model.save(filename)
             print(f"Model saved to {filename}.")
-
-    """
 
 
 def load_data(data_dir=DATA_DIR):
@@ -106,24 +103,70 @@ def load_data(data_dir=DATA_DIR):
     return (images, labels)
 
 
-def get_model():
+def get_model(x_train, x_test, y_train, y_test):
     """
     Returns a compiled convolutional neural network model. Assume that the
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     The get_model function should return a compiled neural network model.
 
-    You may assume that the input to the neural network will be of the shape (IMG_WIDTH, IMG_HEIGHT, 3) (that is, an 
-    array representing an image of width IMG_WIDTH, height IMG_HEIGHT, and 3 values for each pixel for red, green, and blue).
-    The output layer of the neural network should have NUM_CATEGORIES units, one for each of the traffic sign categories.
-    The number of layers and the types of layers you include in between are up to you. You may wish to experiment with:
+    You may assume that the input to the neural network will be of the shape 
+    (IMG_WIDTH, IMG_HEIGHT, 3) (that is, an array representing an image of width 
+    IMG_WIDTH, height IMG_HEIGHT, and 3 values for each pixel for red, green, and blue).
+    The output layer of the neural network should have NUM_CATEGORIES units, one 
+    for each of the traffic sign categories.
+    The number of layers and the types of layers you include in between are up to you. 
+    You may wish to experiment with:
         different numbers of convolutional and pooling layers
         different numbers and sizes of filters for convolutional layers
         different pool sizes for pooling layers
         different numbers and sizes of hidden layers
         dropout
     """
-    raise NotImplementedError
+    
+    # Prepare data for training
+    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    # x_train, x_test = x_train / 255.0, x_test / 255.0
+    # y_train = tf.keras.utils.to_categorical(y_train)
+    # y_test = tf.keras.utils.to_categorical(y_test)
+    # x_train = x_train.reshape(
+    #     x_train.shape[0], x_train.shape[1], x_train.shape[2], 1
+    # )
+    # x_test = x_test.reshape(
+    #     x_test.shape[0], x_test.shape[1], x_test.shape[2], 1
+    # )
+
+    # Create a convolutional neural network
+    model = tf.keras.models.Sequential([
+
+        # Convolutional layer. Learn 32 filters using a 3x3 kernel
+        tf.keras.layers.Conv2D(
+            32, (3, 3), activation="relu", input_shape=(30, 30, 3)
+        ),
+
+        # Max-pooling layer, using 2x2 pool size
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+
+        # Flatten units
+        tf.keras.layers.Flatten(),
+
+        # Add a hidden layer with dropout
+        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dropout(0.5),
+
+        # Add an output layer with output units for all 10 digits
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+    ])
+
+    # Compile neural network
+    model.compile(
+        optimizer="adam",
+        loss="categorical_crossentropy",
+        metrics=["accuracy"]
+    )
+
+
+    return model
 
 
 if __name__ == "__main__":
