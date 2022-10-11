@@ -34,7 +34,7 @@ def main():
 
     # Get a compiled neural network
     print("Compiling model...")
-    model = get_model(x_train, x_test, y_train, y_test)
+    model = get_model()
 
     # Fit model on training data (Train the neural network)
     print("\nTraining model...")
@@ -79,7 +79,7 @@ def load_data(data_dir):
     return (images, labels)
 
 
-def get_model(x_train, x_test, y_train, y_test):
+def get_model():
     """
     Returns a compiled convolutional neural network model.
     """

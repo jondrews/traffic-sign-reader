@@ -17,7 +17,7 @@ Clone the repository, then download the [GTSRB dataset](https://cdn.cs50.net/ai/
 Run `pip install -r requirements.txt`
 
 ## To run
-`python traffic.py dataset_directory [model_name]`
+`python traffic.py data_directory [model_name]`
 where 'model_name' is an optional directory name into which the compiled model will be saved. If not specified, the model will not be saved.
 
 ## Note to CS50AI students & staff:
