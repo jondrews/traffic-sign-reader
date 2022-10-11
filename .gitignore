@@ -1,2 +1,9 @@
-# large database
+# database
 /gtsrb
+/gtsrb-small
+
+# log files
+*.log
+
+# compiled models
+/model*
