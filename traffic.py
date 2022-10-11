@@ -74,7 +74,7 @@ def load_data(data_dir):
                 except Exception as e:
                     print(e)
 
-    print(f"Loaded {len(images)} images, with {len(labels)} labels.\n")
+    print(f"Loaded {len(images)} images, with {NUM_CATEGORIES} labels.\n")
 
     return (images, labels)
 
